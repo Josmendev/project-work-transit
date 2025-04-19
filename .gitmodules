@@ -1,0 +1,6 @@
+[submodule "server/client-gateway"]
+	path = server/client-gateway
+	url = git@github.com:Work-Transit-Backend-Microservices-Nest/client-gateway.git
+[submodule "server/staff-ms"]
+	path = server/staff-ms
+	url = git@github.com:Work-Transit-Backend-Microservices-Nest/staff-ms.git
