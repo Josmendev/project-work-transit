@@ -51,7 +51,7 @@ Este es el servidor (Backend) del proyecto **Work Transit**. Está construido co
 4. Levantar la base de datos con Docker:
 
    ```sh
-   docker-compose up -d
+   docker-compose --project-name project-work-transit up -d 
    ```
 
 ## Actualización del Código del Backend (para el Frontend)

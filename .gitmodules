@@ -4,3 +4,6 @@
 [submodule "server/staff-ms"]
 	path = server/staff-ms
 	url = git@github.com:Work-Transit-Backend-Microservices-Nest/staff-ms.git
+[submodule "server/roles-ms"]
+	path = server/roles-ms
+	url = git@github.com:Work-Transit-Backend-Microservices-Nest/roles-ms.git
