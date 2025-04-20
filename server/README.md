@@ -17,6 +17,7 @@ Este es el servidor (Backend) del proyecto **Work Transit**. Está construido co
 - **Gestor de Base de Datos:**
   - **PostgresQL** (Almacenamiento de datos)
   - **Redis** (Almacenamiento temporal en memoria)
+- **Mensajería:** **NATS** (Comunicación entre microservicios) 🚀
 - **Modelador / Administrador de Base de Datos:** ChartDB / TablePlus 🛠️
 - **Contenerización:** Docker 🐳
 - **Documentación:** Swagger 📄
