@@ -1,19 +1,12 @@
-## Dev
-
-1. Clonar el repositorio
-2. Crear un archivo `.env` con las variables de entorno
-3. Ejecutar el comando `git submodule update --init --recursive` para reconstruir los submódulos
-3. Ejecutar el comando`docker-compose up -d` para levantar los servicios
-
-# Server - Project Certi Salud
+# Server - Project Work Transit
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-Este es el servidor (Backend) del proyecto **Certi Salud**. Está construido con **NestJS** y **MySQL** como gestor de base de datos.
+Este es el servidor (Backend) del proyecto **Work Transit**. Está construido con **NestJS** y **PostgresQL** como gestor de base de datos.
 
-## 🚀 Arquitectura de Software – Backend (API RESTful)
+## 🚀 Arquitectura de Software – Backend (API)
 
 ### 📌 Tecnologías Utilizadas
 
@@ -22,18 +15,18 @@ Este es el servidor (Backend) del proyecto **Certi Salud**. Está construido con
 - **Framework:** NestJS 🚀
 - **ORM:** TypeORM 🗄️
 - **Gestor de Base de Datos:**
-  - **MySQL** (Almacenamiento de datos)
+  - **PostgresQL** (Almacenamiento de datos)
   - **Redis** (Almacenamiento temporal en memoria)
-- **Modelador / Administrador de Base de Datos:** MySQL Workbench / TablePlus 🛠️
+- **Modelador / Administrador de Base de Datos:** ChartDB / TablePlus 🛠️
 - **Contenerización:** Docker 🐳
 - **Documentación:** Swagger 📄
 - **Testing:**
   - **Jest** (Pruebas Unitarias e Integración 🔍)
-  - **Postman / Insomnia** (Pruebas Funcionales 📡)
+  - **Insomnia** (Pruebas Funcionales 📡)
 
 ### 🏗️ Estilo y Patrón de Arquitectura y Patrones de Diseño
 
-- **Estilo de Arquitectura:** Cliente / Servidor (Monolítica)
+- **Estilo de Arquitectura:** Microservicios
 - **Patrón de Arquitectura:** Modular (Propuesta por Nest) usando conceptos de MVC
 - **Patrones de Diseño:**
   - **Estructurales:** Adapters, Decorators
