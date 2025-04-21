@@ -1,12 +1,12 @@
 [submodule "server/client-gateway"]
 	path = server/client-gateway
-	url = git@github.com:Work-Transit-Backend-Microservices-Nest/client-gateway.git
+	url = https://github.com/Work-Transit-Backend-Microservices-Nest/client-gateway.git
 [submodule "server/staff-ms"]
 	path = server/staff-ms
-	url = git@github.com:Work-Transit-Backend-Microservices-Nest/staff-ms.git
+	url = https://github.com/Work-Transit-Backend-Microservices-Nest/staff-ms.git
 [submodule "server/roles-ms"]
 	path = server/roles-ms
-	url = git@github.com:Work-Transit-Backend-Microservices-Nest/roles-ms.git
+	url = https://github.com/Work-Transit-Backend-Microservices-Nest/roles-ms.git
 [submodule "server/users-ms"]
 	path = server/users-ms
-	url = git@github.com:Work-Transit-Backend-Microservices-Nest/users-ms.git
+	url = https://github.com/Work-Transit-Backend-Microservices-Nest/users-ms.git
