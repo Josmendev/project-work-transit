@@ -7,3 +7,6 @@
 [submodule "server/roles-ms"]
 	path = server/roles-ms
 	url = git@github.com:Work-Transit-Backend-Microservices-Nest/roles-ms.git
+[submodule "server/users-ms"]
+	path = server/users-ms
+	url = git@github.com:Work-Transit-Backend-Microservices-Nest/users-ms.git
