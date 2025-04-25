@@ -1,0 +1,137 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+@import "./shared/components/Button/Button.module.css";
+@import "./shared/components/Checkbox/Checkbox.module.css";
+@import "./shared/components/Header/Header.module.css";
+@import "./shared/components/Modal/Modal.module.css";
+@import "./shared/components/SelectGroup/SelectGroup.module.css";
+@import "./shared/components/Sidebar/Sidebar.module.css";
+@import "./shared/components/Spinner/Spinner.module.css";
+@import "./shared/components/Table/Table.module.css";
+@import "./shared/components/TextInput/TextInput.module.css";
+
+@theme {
+  /* Fonts */
+  --font-montserrat: "Montserrat Variable", sans-serif;
+
+  /* Colors */
+  --color-background: #eff3f6;
+  --color-body: #64748b;
+  --color-bodydark: #aeb7c0;
+  --color-bodydark1: #dee4ee;
+  --color-bodydark2: #8a99af;
+  --color-stroke: #e2e8f0;
+  --color-graydark: #333a48;
+  --color-whiten: #f1f5f9;
+  --color-whiter: #f5f7fd;
+
+  --color-primary-50: #88f9c3;
+  --color-primary-100: #61f8af;
+  --color-primary-200: #39f69a;
+  --color-primary-300: #12f486;
+  --color-primary-400: #0ad371;
+  --color-primary-500: #08ab5c;
+  --color-primary-600: #078e4d;
+  --color-primary-700: #05723d;
+  --color-primary-800: #04562e;
+  --color-primary-900: #03391f;
+
+  --color-secondary-50: #b1b6b1;
+  --color-secondary-100: #979d97;
+  --color-secondary-200: #7e857e;
+  --color-secondary-300: #656b65;
+  --color-secondary-400: #4c514c;
+  --color-secondary-500: #343734;
+  --color-secondary-600: #2b2e2b;
+  --color-secondary-700: #232523;
+  --color-secondary-800: #1a1c1a;
+  --color-secondary-900: #111211;
+
+  --color-success-50: #a6f0c1;
+  --color-success-100: #88eaac;
+  --color-success-200: #6ae598;
+  --color-success-300: #4de083;
+  --color-success-400: #2fdb6e;
+  --color-success-500: #22c55e;
+  --color-success-600: #1ca44e;
+  --color-success-700: #17833f;
+  --color-success-800: #11632f;
+  --color-success-900: #0b421f;
+
+  --color-warning-50: #ffe49a;
+  --color-warning-100: #ffdc78;
+  --color-warning-200: #ffd356;
+  --color-warning-300: #ffca34;
+  --color-warning-400: #ffc113;
+  --color-warning-500: #f0b100;
+  --color-warning-600: #c89300;
+  --color-warning-700: #a07600;
+  --color-warning-800: #785800;
+  --color-warning-900: #503b00;
+
+  --color-error-50: #f9b9b9;
+  --color-error-100: #f7a2a2;
+  --color-error-200: #f58a8a;
+  --color-error-300: #f37373;
+  --color-error-400: #f15b5b;
+  --color-error-500: #ef4444;
+  --color-error-600: #eb1515;
+  --color-error-700: #bd1010;
+  --color-error-800: #8d0c0c;
+  --color-error-900: #5e0808;
+
+  --color-info-50: #9bdfff;
+  --color-info-100: #7ad4ff;
+  --color-info-200: #59caff;
+  --color-info-300: #38bfff;
+  --color-info-400: #16b5ff;
+  --color-info-500: #00a6f4;
+  --color-info-600: #008acb;
+  --color-info-700: #006fa3;
+  --color-info-800: #00537a;
+  --color-info-900: #003751;
+
+  --color-shades-dark: #1c2434;
+  --color-shades-light: #ffffff;
+}
+
+@utility no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  & {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Botón de acción personalizado según el tipo de toast */
+.toaster-success,
+.toaster-error,
+.toaster-warning,
+.toaster-info {
+  font-family: var(--font-montserrat);
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.toaster-success button {
+  background-color: #22c55e !important;
+  color: white !important;
+}
+
+.toaster-warning button {
+  background-color: #facc15 !important;
+  color: black !important;
+}
+
+.toaster-error button {
+  background-color: #ef4444 !important;
+  color: white !important;
+}
+
+.toaster-info button {
+  background-color: #3b82f6 !important;
+  color: white !important;
+}
