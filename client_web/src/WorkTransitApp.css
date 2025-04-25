@@ -1,0 +1,17 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+  background-color: #eff3f6;
+  line-height: 1.4;
+  font-size: 1rem;
+  font-family: "Montserrat Variable", sans-serif;
+}
+
+.wrapper {
+  padding: 2rem;
+}
+
+body {
+  font-family: "Montserrat Variable", sans-serif;
+  line-height: 1.5;
+}
