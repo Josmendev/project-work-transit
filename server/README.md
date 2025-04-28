@@ -38,8 +38,7 @@ Este es el servidor (Backend) del proyecto **Work Transit**. Está construido co
 1. Clonar el repositorio:
 
    ```sh
-   git clone git@github.com:Work-Transit-Backend-Microservices-Nest/project-work-transit.git
-   cd project-work-transit
+   git clone git@github.com:JosmenDev/project-work-transit.git
    ```
 
 2. Inicializar y actualizar los submodulos:
