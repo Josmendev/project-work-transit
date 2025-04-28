@@ -4,7 +4,7 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-Este es el servidor (Backend) del proyecto **Work Transit**. Está construido con **NestJS** y **PostgresQL** como gestor de base de datos.
+Este es el servidor (Backend) del proyecto **Work Transit**. Está construido con **NestJS** y **PostgresQL** como gestor de base de datos. La documentación de la API se genera y se encuentra disponible en el repositorio del **[Client Gateway]([https://github.com/Work-Transit-Backend-Microservices-Nest/client-gateway.git])**. Consulta el `README.md` de ese repositorio para obtener instrucciones sobre cómo acceder a la documentación de la API.
 
 ## 🚀 Arquitectura de Software – Backend (API)
 
