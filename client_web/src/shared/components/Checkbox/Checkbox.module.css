@@ -1,0 +1,68 @@
+.cbx-label {
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #c8ccd4;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Checkmark oculto hasta que el checkbox esté marcado */
+.cbx-label:after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  width: 6px;
+  height: 12px;
+  opacity: 0;
+  transform: rotate(45deg) scale(0);
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  transition: all 0.3s ease;
+}
+
+/* Cuando el checkbox está marcado */
+.cbx-input:checked + .cbx-label {
+  border-color: transparent;
+  background: #13cc8d;
+  animation: jelly 0.6s ease;
+}
+
+.cbx-input:checked + .cbx-label:after {
+  opacity: 1;
+  transform: rotate(45deg) scale(1);
+}
+
+.cbx-text {
+  margin-left: 10px;
+  font-size: 16px;
+  vertical-align: super;
+}
+
+@keyframes jelly {
+  from {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.25, 0.75);
+  }
+  40% {
+    transform: scale(0.75, 1.25);
+  }
+  50% {
+    transform: scale(1.15, 0.85);
+  }
+  65% {
+    transform: scale(0.95, 1.05);
+  }
+  75% {
+    transform: scale(1.05, 0.95);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+}

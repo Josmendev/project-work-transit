@@ -1,0 +1,15 @@
+.select-group-label {
+  @apply block mb-3 text-left;
+}
+
+.select-group-container {
+  @apply relative;
+}
+
+.select-group {
+  @apply w-full appearance-none rounded-md outline-none border focus:border-primary-500 border-neutral-400 px-4 py-3;
+}
+
+.select-group-chevron {
+  @apply absolute top-1/2 right-2.5 -translate-y-1/2;
+}
