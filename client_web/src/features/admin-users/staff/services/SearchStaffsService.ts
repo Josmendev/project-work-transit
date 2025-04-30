@@ -15,21 +15,21 @@ export const SearchStaffsService = async ({
   query: string;
 }): Promise<DataResponseFromAPI<StaffResponse>> => {
   try {
-    const { token } = JSON.parse(sessionStorage.getItem("user") as string);
-    if (!token) throw new Error("Token inválido");
+    // const { token } = JSON.parse(sessionStorage.getItem("user") as string);
+    // if (!token) throw new Error("Token inválido");
 
     const response = await fetch(`${ENDPOINT_STAFF}/${query}?limit=${limit}&page=${page}`, {
       method: "GET",
       headers: {
         "Content-type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        // "Authorization": `Bearer ${token}`,
       },
     });
 
-    // Respuesta no exitosa, lanzo excepcion del backend
+    // Respuesta no exitosa
     if (!response.ok) throw await response.json();
 
-    // Respuesta exitosa, parseo el JSON y devuelvo el objeto DataResponseFromAPI<StaffResponse>
+    // Respuesta exitosa
     const data: DataResponseFromAPI<StaffResponse> = await response.json();
     return data;
   } catch (error: unknown) {
