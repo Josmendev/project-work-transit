@@ -1,4 +1,4 @@
-export const BASE_BACKEND_URL = "http://localhost:3002/api/v1";
+export const BASE_BACKEND_URL = "http://localhost:3000/api/v1";
 
 export const BASE_ROUTES = {
   PUBLIC: {
@@ -35,16 +35,28 @@ export const VEHICLES_ROUTES = {
   VEHICLE: "vehicle",
 };
 
-export const PATH_ROUTES = {
-  PATH: "path",
+export const ADMIN_ROUTE_ROUTES = {
+  ROUTE: "route",
   CONNECTION_POINTS: "connection-points",
   ZONE: "zone",
-  BUS_STOP: "bus-stop",
+  STOP: "stop",
 };
 
 export const TRIPS_ROUTES = {
   TRIP: "trip",
 };
+
+// Defino el estado inicial para todos los listados de tablas
+export const initialListOfResponseAPI = {
+  data: [],
+  limit: 5,
+  page: 1,
+  total: 1,
+  totalPages: 1,
+};
+
+export const INITIAL_PAGE = 1;
+export const LIMIT_PAGE = 5;
 
 // Defino un mapa de roles
 export const ROLES_MAPPING: Record<string, number> = {
@@ -56,15 +68,3 @@ export const ROLES_MAPPING: Record<string, number> = {
 // Defino un tipo con las claves (Administrador, Chofer, Pasajero) y tipo con valores con 1,2 y 3
 export type ROLES_KEYS = keyof typeof ROLES_MAPPING;
 export type ROLES_VALUES = (typeof ROLES_MAPPING)[ROLES_KEYS];
-
-export const INITIAL_PAGE = 1;
-export const LIMIT_PAGE = 5;
-
-// Defino el estado inicial para todos los listados de tablas
-export const initialListOfResponseAPI = {
-  data: [],
-  limit: 5,
-  page: 1,
-  total: 1,
-  totalPages: 1,
-};
