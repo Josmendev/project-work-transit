@@ -2,11 +2,11 @@ import { useMutation, useQueryClient, type QueryKey } from "@tanstack/react-quer
 import { DataResponseFromAPI } from "../../../../shared/types/DataResponse";
 import { LIMIT_PAGE } from "../../../../shared/utils/constants";
 import { createStaff } from "../repositories/staffRepository";
-import type { StaffResponse } from "../types/Staff";
+import type { StaffResponse, StaffResponseConditional } from "../types/Staff";
 
 interface CreateStaffProps {
   queryKey: QueryKey;
-  onSuccess?: (totalPages?: number) => void;
+  onSuccess?: (response?: StaffResponse | StaffResponseConditional, totalPages?: number) => void;
 }
 
 export const useCreateStaff = ({ queryKey, onSuccess }: CreateStaffProps) => {
@@ -18,11 +18,10 @@ export const useCreateStaff = ({ queryKey, onSuccess }: CreateStaffProps) => {
       const previousData = queryClient.getQueryData<DataResponseFromAPI<StaffResponse>>(queryKey);
       if (!previousData) return;
 
-      // Staffid and isActive, son de prueba, es para mantener la estructura de StaffResponse.
       const newStaff = {
         staffId: Date.now(),
         isActive: true,
-        person: staff,
+        ...staff,
       };
 
       // Calculo optimistamente el nuevo totalPages
@@ -46,10 +45,10 @@ export const useCreateStaff = ({ queryKey, onSuccess }: CreateStaffProps) => {
       if (context?.previousData) queryClient.setQueryData(queryKey, context.previousData);
     },
 
-    onSuccess: async () => {
+    onSuccess: async (response) => {
       await queryClient.invalidateQueries({ queryKey });
       const updatedQuery = queryClient.getQueryData<DataResponseFromAPI<StaffResponse>>(queryKey);
-      onSuccess?.(updatedQuery?.totalPages);
+      onSuccess?.(response, updatedQuery?.totalPages);
     },
   });
 };
