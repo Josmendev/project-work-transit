@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient, type QueryKey } from "@tanstack/react-query";
 import { DataResponseFromAPI } from "../../../../shared/types/DataResponse";
-import type { User } from "../../../auth/types/User";
+import type { User, UserResponse } from "../../../auth/types/User";
 import { deleteUser } from "../repositories/userRepository";
 
 interface DeleteUserProps {
@@ -14,10 +14,10 @@ export const useDeleteUser = ({ queryKey, onSuccess }: DeleteUserProps) => {
   return useMutation({
     mutationFn: deleteUser,
     onMutate: async (deletedUser) => {
-      const previousData = queryClient.getQueryData<DataResponseFromAPI<User>>(queryKey);
+      const previousData = queryClient.getQueryData<DataResponseFromAPI<UserResponse>>(queryKey);
       if (!previousData) return;
 
-      queryClient.setQueryData(queryKey, (oldData?: DataResponseFromAPI<User>) => {
+      queryClient.setQueryData(queryKey, (oldData?: DataResponseFromAPI<UserResponse>) => {
         if (!oldData) return deletedUser;
         const filteredData = oldData.data.filter((user) => user.userId !== deletedUser.userId);
 
