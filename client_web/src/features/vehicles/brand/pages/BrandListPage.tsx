@@ -7,8 +7,8 @@ import { Table } from "../../../../shared/components/Table/Table";
 import { useModalManager } from "../../../../shared/hooks/useModalManager";
 import DefaultLayout from "../../../../shared/layouts/DefaultLayout";
 import { SectionLayout } from "../../../../shared/layouts/SectionLayout";
-import { TableRoleItem } from "../components/TableRoleItem";
-import { UpsertRoleForm } from "../components/UpsertRoleForm";
+import { TableBrandItem } from "../components/TableBrandItem";
+import { UpsertBrandForm } from "../components/UpsertBrandForm";
 import { useBrand } from "../hooks/useBrand";
 import { useBrandManagement } from "../hooks/useBrandManagement";
 import type { Brand } from "../types/Brand";
@@ -32,7 +32,7 @@ export const BrandListPage = () => {
   });
 
   const { modalType, openModal, closeModal, selectedItem } = useModalManager<Brand>();
-  const headersTable = ["N°", "Rol", "Estado"];
+  const headersTable = ["N°", "Marca", "Estado"];
 
   if (isLoading) return <Loader />;
   if (isError) return <b>Error: {error?.message || "Error desconocido"}</b>;
@@ -45,7 +45,7 @@ export const BrandListPage = () => {
         classNameForChildren="flex gap-4"
       >
         <Card headerCard="Registro" className="min-w-[460px] overflow-hidden !h-[310px]">
-          <UpsertRoleForm onEditRole={onEditBrand} />
+          <UpsertBrandForm onEditBrand={onEditBrand} />
         </Card>
 
         <Card
@@ -53,9 +53,9 @@ export const BrandListPage = () => {
           className="flex-auto items-center"
           headerRightContentCard={
             <Search
-              id="txtSearchRole"
-              name="txtSearchRole"
-              placeholder="Buscar rol"
+              id="txtSearchBrand"
+              name="txtSearchBrand"
+              placeholder="Buscar marca"
               className="!mt-0 !mb-0"
               onSearch={handleSearch}
             />
@@ -70,8 +70,8 @@ export const BrandListPage = () => {
           }
         >
           <Table headersTable={headersTable} response={data}>
-            <TableRoleItem
-              listOfRoles={data?.data ?? []}
+            <TableBrandItem
+              listOfBrands={data?.data ?? []}
               currentPage={currentPage}
               editRow={handleEditBrandInRow}
               deleteRow={(data) => {
