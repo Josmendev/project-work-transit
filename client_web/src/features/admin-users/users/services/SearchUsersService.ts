@@ -1,7 +1,7 @@
 import type { DataResponseFromAPI } from "../../../../shared/types/DataResponse";
 import { handleApiError } from "../../../../shared/utils/handleApiError";
-import type { User } from "../../../auth/types/User";
-import { ENDPOINTS_USER } from "../utils/endpoints";
+import type { UserResponse } from "../../../auth/types/User";
+import { ENDPOINT_USER } from "../utils/endpoints";
 import { INITIAL_PAGE, LIMIT_PAGE } from "./../../../../shared/utils/constants";
 
 // Creo la funcion searchForUsers que se conecta a la API del backend
@@ -13,27 +13,24 @@ export const SearchUsersService = async ({
   limit?: number;
   page: number;
   query: string;
-}): Promise<DataResponseFromAPI<User>> => {
+}): Promise<DataResponseFromAPI<UserResponse>> => {
   try {
-    const { token } = JSON.parse(sessionStorage.getItem("user") as string);
-    if (!token) throw new Error("Token inválido");
+    // const { token } = JSON.parse(sessionStorage.getItem("user") as string);
+    // if (!token) throw new Error("Token inválido");
 
-    const response = await fetch(
-      `${ENDPOINTS_USER.SEARCH_USERS}/${query}?limit=${limit}&page=${page}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`${ENDPOINT_USER}/${query}?limit=${limit}&page=${page}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        // "Authorization": `Bearer ${token}`,
+      },
+    });
 
-    // Respuesta no exitosa, lanzo excepcion del backend
+    // Respuesta no exitosa
     if (!response.ok) throw await response.json();
 
-    // Respuesta exitosa, parseo el JSON y devuelvo el objeto DataResponseFromAPI<User>
-    const data: DataResponseFromAPI<User> = await response.json();
+    // Respuesta exitosa
+    const data: DataResponseFromAPI<UserResponse> = await response.json();
     return data;
   } catch (error: unknown) {
     handleApiError(error);
