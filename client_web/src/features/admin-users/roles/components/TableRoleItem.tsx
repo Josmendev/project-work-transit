@@ -1,13 +1,13 @@
 import { Button } from "../../../../shared/components/Button/Button";
 import { Icon } from "../../../../shared/components/Icon";
 import { LIMIT_PAGE } from "../../../../shared/utils/constants";
-import type { Role, RoleResponse } from "../types/Role";
+import type { RoleResponse } from "../types/Role";
 
 export interface TableRoleItemProps {
   listOfRoles: Array<RoleResponse>;
-  editRow?: (data: Role) => void;
-  deleteRow?: (data: Role) => void;
-  activateRow?: (data: Role) => void;
+  editRow?: (data: RoleResponse) => void;
+  deleteRow?: (data: RoleResponse) => void;
+  activateRow?: (data: RoleResponse) => void;
   currentPage: number;
 }
 
@@ -41,7 +41,7 @@ export const TableRoleItem: React.FC<TableRoleItemProps> = ({
           <td className="p-2">{row?.description}</td>
           <td className="p-2">{textIsActive(row?.isActive)}</td>
           <td className="p-3 w-[180px] flex gap-1.5 items-center justify-center">
-            {editRow && (
+            {row.isActive && editRow && (
               <Button
                 title="Editar"
                 id={`btnEditRow-${row?.roleId}`}

@@ -4,14 +4,14 @@ import { ENDPOINT_STAFF } from "../utils/endpoints";
 // Creo la funcion ActivateStaff que se conecta a la API del backend
 export const ActivateStaffService = async ({ staffId }: { staffId: number }): Promise<void> => {
   try {
-    const { token } = JSON.parse(sessionStorage.getItem("user") as string);
-    if (!token) throw new Error("Token inválido");
+    // const { token } = JSON.parse(sessionStorage.getItem("user") as string);
+    // if (!token) throw new Error("Token inválido");
 
-    const response = await fetch(`${ENDPOINT_STAFF}/${staffId}/activate`, {
+    const response = await fetch(`${ENDPOINT_STAFF}/${staffId}/active`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        // "Authorization": `Bearer ${token}`,
       },
     });
 

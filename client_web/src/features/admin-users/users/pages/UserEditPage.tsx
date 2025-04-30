@@ -2,15 +2,11 @@ import { Navigate, useNavigate } from "react-router";
 import { Button } from "../../../../shared/components/Button/Button";
 import { Card } from "../../../../shared/components/Card/Card";
 import { Checkbox } from "../../../../shared/components/Checkbox/Checkbox";
-import { GenericModal } from "../../../../shared/components/GenericModal";
 import { Icon } from "../../../../shared/components/Icon";
 import { TextInput } from "../../../../shared/components/TextInput/TextInput";
-import { getUserInformation } from "../../../../shared/helpers/getUserInformation";
-import { useModalManager } from "../../../../shared/hooks/useModalManager";
 import DefaultLayout from "../../../../shared/layouts/DefaultLayout";
 import { SectionLayout } from "../../../../shared/layouts/SectionLayout";
 import { showToast } from "../../../../shared/utils/toast";
-import type { User } from "../../../auth/types/User";
 import { useUserManagement } from "../hooks/useUserManagement";
 
 //📌 => Orden convencional para estructura de componentes
@@ -21,13 +17,11 @@ export const UserEditPage = () => {
     currentPage,
     handleUpdateUser,
     handleChangeRole,
-    handleResetPasswordUser,
     shouldRedirect,
     MAIN_ROUTE,
   } = useUserManagement();
 
   const navigate = useNavigate();
-  const { modalType, openModal, closeModal, selectedItem } = useModalManager<User>();
   const ROUTE_INITIAL = `${MAIN_ROUTE}?page=${currentPage}`;
 
   if (!selectedUser || !roles) {
@@ -64,13 +58,13 @@ export const UserEditPage = () => {
             </Button>
           }
         >
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-32">
-            <div className="max-w-[580px] flex flex-col gap-5 mb-5">
+          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-28">
+            <div className="flex flex-col gap-5 mb-5">
               <TextInput
                 label="Personal / Trabajador"
                 type="text"
                 readOnly
-                value={getUserInformation(selectedUser).userInformation}
+                value={selectedUser.staff}
                 minLength={2}
                 maxLength={100}
                 ariaLabel="Nombres completos"
@@ -111,7 +105,7 @@ export const UserEditPage = () => {
               </div>
             </div>
 
-            <div className="user-buttons mt-5 flex gap-20 col-span-2">
+            <div className="user-buttons mt-5 flex col-span-1">
               <Button
                 title="Guardar"
                 id="btnSaveUser"
@@ -122,33 +116,9 @@ export const UserEditPage = () => {
               >
                 Guardar
               </Button>
-
-              <Button
-                title="Refrescar contraseña"
-                id="btnResetUser"
-                type="button"
-                classButton="btn-primary text-paragraph-medium !bg-secondary-500 hover:!bg-secondary-600"
-                iconLeft={<Icon.Refresh size={28} strokeWidth={1.2} />}
-                onClick={() => {
-                  const userToShow = selectedItem ?? selectedUser;
-                  if (userToShow) openModal("refreshPassword", userToShow);
-                }}
-              >
-                Refrescar contraseña
-              </Button>
             </div>
           </form>
         </Card>
-
-        <GenericModal
-          modalType={modalType}
-          onClose={closeModal}
-          onConfirm={() => {
-            handleResetPasswordUser();
-            navigate(ROUTE_INITIAL, { replace: true });
-          }}
-          entityName="User"
-        />
       </SectionLayout>
     </DefaultLayout>
   );

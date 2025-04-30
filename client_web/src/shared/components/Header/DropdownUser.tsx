@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../contexts/AuthContext";
 import { getRolesOfUser } from "../../helpers/getRolesForDescription";
-import { getUserInformation } from "../../helpers/getUserInformation";
 import { BASE_ROUTES } from "../../utils/constants";
 import { getMessageConfigResponse } from "../../utils/getMessageConfig";
 import { handleApiError } from "../../utils/handleApiError";
@@ -22,7 +21,6 @@ const DropdownUser = () => {
     return null;
   }
 
-  const { userInformation } = getUserInformation(user);
   const isUserAdmin = getRolesOfUser(user)?.includes("Administrador");
 
   const handleLogout = async () => {
@@ -40,8 +38,10 @@ const DropdownUser = () => {
         to="#"
       >
         <span className="hidden text-right lg:block">
-          <span className="block text-sm font-medium text-black">{userInformation}</span>
-          <span className="block text-xs">{user?.role.join(", ")}</span>
+          <span className="block text-sm font-medium text-black">
+            {"LUEGO ACTUALUIZAR CON USER"}
+          </span>
+          <span className="block text-xs">{user?.roles}</span>
         </span>
 
         <span className="header-profile-img">

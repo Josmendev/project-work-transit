@@ -15,21 +15,21 @@ export const SearchRolesService = async ({
   query: string;
 }): Promise<DataResponseFromAPI<RoleResponse>> => {
   try {
-    const { token } = JSON.parse(sessionStorage.getItem("user") as string);
-    if (!token) throw new Error("Token inválido");
+    // const { token } = JSON.parse(sessionStorage.getItem("user") as string);
+    // if (!token) throw new Error("Token inválido");
 
     const response = await fetch(`${ENDPOINT_ROLE}/${query}?limit=${limit}&page=${page}`, {
       method: "GET",
       headers: {
         "Content-type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        // "Authorization": `Bearer ${token}`,
       },
     });
 
-    // Respuesta no exitosa, lanzo excepcion del backend
+    // Respuesta no exitosa
     if (!response.ok) throw await response.json();
 
-    // Respuesta exitosa, parseo el JSON y devuelvo el objeto DataResponseFromAPI<ResponseRole>
+    // Respuesta exitosa
     const data: DataResponseFromAPI<RoleResponse> = await response.json();
     return data;
   } catch (error: unknown) {

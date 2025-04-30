@@ -38,20 +38,56 @@ export const AgeSchema = z
   .min(0, { message: "La edad mínima permitida es 0 ('0' para bebés menores a 1 año)" })
   .max(120, { message: "La edad máxima permitida es 120" });
 
-export const LastNameSchema = (label: string) =>
-  z
-    .string()
-    .nonempty({ message: `El ${label} no puede ser un campo vacío` })
-    .min(2, { message: `El ${label} debe tener al menos 2 caracteres` })
-    .max(30, { message: `El ${label} debe tener como máximo 30 caracteres` });
-
 export const PhoneSchema = z
   .string()
+  .nonempty("El teléfono no puede ser un campo vacío")
   .regex(/^\d+$/, "El teléfono solo debe contener números")
-  .length(9, "El teléfono debe tener exactamente 9 dígitos")
-  .optional();
+  .length(9, "El teléfono debe tener exactamente 9 dígitos");
 
 export const EmailSchema = z
   .string()
   .nonempty("El correo no puede ser un campo vacío")
   .email("El correo electrónico no es válido");
+
+export const BrandSchema = z
+  .string()
+  .nonempty("La marca no puede ser un campo vacío")
+  .min(2, "La marca debe tener al menos 2 caracteres")
+  .max(30, "La marca debe tener como máximo 30 caracteres");
+
+export const ModelSchema = z
+  .string()
+  .nonempty("El modelo no puede ser un campo vacío")
+  .min(2, "El modelo debe tener al menos 2 caracteres")
+  .max(30, "El modelo debe tener como máximo 30 caracteres");
+
+export const RouteSchema = z
+  .string()
+  .nonempty("La ruta no puede ser un campo vacío")
+  .min(2, "La ruta debe tener al menos 2 caracteres")
+  .max(30, "La ruta debe tener como máximo 30 caracteres");
+
+export const ZoneSchema = z
+  .string()
+  .nonempty("La zona no puede ser un campo vacío")
+  .min(2, "La zona debe tener al menos 2 caracteres")
+  .max(30, "La zona debe tener como máximo 30 caracteres");
+
+export const ConnectionPointSchema = z
+  .string()
+  .nonempty("El punto de conexión no puede ser un campo vacío")
+  .min(4, "El punto de conexión debe tener al menos 4 caracteres")
+  .max(50, "El punto de conexión debe tener como máximo 50 caracteres");
+
+export const StopSchema = z
+  .string()
+  .nonempty("La dirección de la parada no puede ser un campo vacío")
+  .min(4, "La dirección de la parada debe tener al menos 4 caracteres")
+  .max(50, "La dirección de la parada debe tener como máximo 50 caracteres");
+
+export const StringToLabelSchema = (label: string) =>
+  z
+    .string()
+    .nonempty({ message: `El ${label} no puede ser un campo vacío` })
+    .min(2, { message: `El ${label} debe tener al menos 2 caracteres` })
+    .max(30, { message: `El ${label} debe tener como máximo 30 caracteres` });

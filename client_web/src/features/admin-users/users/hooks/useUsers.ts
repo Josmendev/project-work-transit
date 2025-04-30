@@ -1,15 +1,6 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useContext } from "react";
-import { useNavigate } from "react-router";
-import { AuthContext } from "../../../../shared/contexts/AuthContext";
 import { getUsers, updateUser } from "../repositories/userRepository";
-import { ResetPasswordUserService } from "../services/ResetPasswordUserService";
-import {
-  ADMIN_USERS_ROUTES,
-  BASE_ROUTES,
-  initialListOfResponseAPI,
-} from "./../../../../shared/utils/constants";
-import { useDeleteUser } from "./useDeleteUser";
+import { initialListOfResponseAPI } from "./../../../../shared/utils/constants";
 
 export const useUsers = ({
   currentPage,
@@ -19,9 +10,7 @@ export const useUsers = ({
   searchQuery: string;
 }) => {
   const queryClient = useQueryClient();
-  const { updateUserInSession } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const MAIN_ROUTE = `/${BASE_ROUTES.PRIVATE.ADMIN}/${ADMIN_USERS_ROUTES.USERS}`;
+  // const { updateUserInSession } = useContext(AuthContext);
   const queryKey = ["users", currentPage, searchQuery];
 
   const {
@@ -38,23 +27,9 @@ export const useUsers = ({
 
   const handleUpdateUserMutation = useMutation({
     mutationFn: updateUser,
-    onSuccess: (updatedUser) => {
-      queryClient.invalidateQueries({ queryKey: queryKey.slice(0, 1), exact: false });
-      updateUserInSession(updatedUser);
-    },
-  });
-
-  const handleDeleteUserMutation = useDeleteUser({
-    queryKey: queryKey,
-    onSuccess: (newPage) => {
-      navigate(`${MAIN_ROUTE}?page=${newPage}`);
-    },
-  });
-
-  const handleResetPasswordUserMutation = useMutation({
-    mutationFn: ResetPasswordUserService,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKey.slice(0, 1), exact: false });
+      // updateUserInSession(updatedUser); Colocar el updateUser como parámetro de OnSuccess
     },
   });
 
@@ -65,7 +40,5 @@ export const useUsers = ({
     isError,
     error,
     handleUpdateUserMutation,
-    handleDeleteUserMutation,
-    handleResetPasswordUserMutation,
   };
 };

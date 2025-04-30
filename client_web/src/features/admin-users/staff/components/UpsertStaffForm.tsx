@@ -3,10 +3,12 @@ import { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Navigate, useLocation } from "react-router";
 import { Button } from "../../../../shared/components/Button/Button";
+import { GenericModal } from "../../../../shared/components/GenericModal";
 import { Icon } from "../../../../shared/components/Icon";
 import { Spinner } from "../../../../shared/components/Spinner/Spinner";
 import { TextInput } from "../../../../shared/components/TextInput/TextInput";
 import { transformToCapitalize } from "../../../../shared/helpers/transformToCapitalize";
+import { useModalManager } from "../../../../shared/hooks/useModalManager";
 import { usePagination } from "../../../../shared/hooks/usePagination";
 import { getMessageConfigResponse } from "../../../../shared/utils/getMessageConfig";
 import { handleApiError } from "../../../../shared/utils/handleApiError";
@@ -14,7 +16,7 @@ import { showToast } from "../../../../shared/utils/toast";
 import { useStaff } from "../hooks/useStaff";
 import { useStaffManagement } from "../hooks/useStaffManagement";
 import { getStaffSchema } from "../schemas/StaffSchema";
-import type { Staff, StaffResponse } from "../types/Staff";
+import type { CreateStaff, StaffResponse, StaffResponseConditional } from "../types/Staff";
 
 export const UpsertStaffForm = () => {
   const location = useLocation();
@@ -22,11 +24,18 @@ export const UpsertStaffForm = () => {
   const { shouldRedirect } = useStaffManagement();
 
   const { currentPage, searchQuery } = usePagination();
-  const { handleCreateStaffMutation, handleUpdateStaffMutation, MAIN_ROUTE } = useStaff({
+  const {
+    handleCreateStaffMutation,
+    handleUpdateStaffMutation,
+    handleActivateStaffMutation,
+    MAIN_ROUTE,
+  } = useStaff({
     currentPage,
     searchQuery,
   });
 
+  const { modalType, openModal, closeModal, selectedItem } =
+    useModalManager<StaffResponseConditional>();
   const ROUTE_INITIAL = `${MAIN_ROUTE}?page=${currentPage}`;
 
   const {
@@ -36,20 +45,20 @@ export const UpsertStaffForm = () => {
     setFocus,
     setValue,
     formState: { errors },
-  } = useForm<Staff>({
+  } = useForm<CreateStaff>({
     resolver: zodResolver(getStaffSchema()),
     mode: "onChange", // Valido cuando el usuario escribe
   });
 
   useEffect(() => {
     if (selectedStaff) {
-      const { identityDocumentNumber, name, paternalSurname, maternalSurname, phone, email } =
-        selectedStaff.person;
+      const { identityDocumentNumber, name, paternalSurname, maternalSurname, telephone, email } =
+        selectedStaff;
       setValue("identityDocumentNumber", identityDocumentNumber ?? "");
       setValue("name", name ?? "");
       setValue("paternalSurname", paternalSurname ?? "");
       setValue("maternalSurname", maternalSurname ?? "");
-      setValue("phone", phone ?? "");
+      setValue("telephone", telephone ?? "");
       setValue("email", email ?? "");
       setFocus("identityDocumentNumber");
     }
@@ -70,23 +79,23 @@ export const UpsertStaffForm = () => {
     setFocus("identityDocumentNumber");
   };
 
-  const onSubmit: SubmitHandler<Staff> = async (data) => {
-    const { identityDocumentNumber, name, paternalSurname, maternalSurname, phone, email } = data;
+  const onSubmit: SubmitHandler<CreateStaff> = async (data) => {
+    const { identityDocumentNumber, name, paternalSurname, maternalSurname, telephone, email } =
+      data;
     try {
       const upsertStaff = {
         identityDocumentNumber: identityDocumentNumber ?? "",
         name: transformToCapitalize(name ?? ""),
         paternalSurname: transformToCapitalize(paternalSurname ?? ""),
         maternalSurname: transformToCapitalize(maternalSurname ?? ""),
-        phone: phone ?? "",
+        telephone: telephone ?? "",
         email: email ?? "",
       };
 
       // Update
       if (selectedStaff) {
-        const updateStaff = upsertStaff;
         await handleUpdateStaffMutation.mutateAsync({
-          staff: updateStaff,
+          staff: upsertStaff,
           staffId: selectedStaff.staffId,
         });
 
@@ -97,7 +106,13 @@ export const UpsertStaffForm = () => {
       }
 
       // Create
-      await handleCreateStaffMutation.mutateAsync({ staff: upsertStaff });
+      const response = await handleCreateStaffMutation.mutateAsync({ staff: upsertStaff });
+
+      if ("isStaffInactive" in response) {
+        openModal("activate", response as StaffResponseConditional);
+        return;
+      }
+
       const messageToast = getMessageConfigResponse("Personal");
       showToast({ ...messageToast.create });
     } catch (error) {
@@ -136,8 +151,8 @@ export const UpsertStaffForm = () => {
             maxLength={25}
             ariaLabel="N° de teléfono"
             placeholder="Ingrese su teléfono"
-            {...register("phone")}
-            error={errors.phone?.message as string}
+            {...register("telephone")}
+            error={errors.telephone?.message as string}
           />
         </div>
 
@@ -212,6 +227,29 @@ export const UpsertStaffForm = () => {
           </Button>
         </div>
       </form>
+
+      <GenericModal
+        modalType={modalType}
+        onClose={closeModal}
+        isLoadingData={modalType === "activate" && handleActivateStaffMutation.isPending}
+        onConfirm={async () => {
+          if (!selectedItem) {
+            showToast({
+              title: "Error encontrado",
+              description: "No hay datos del personal",
+              type: "error",
+            });
+            return;
+          }
+
+          if (modalType === "activate" && "staffId" in selectedItem) {
+            await handleActivateStaffMutation.mutateAsync({ staffId: selectedItem.staffId });
+            const messageToast = getMessageConfigResponse("Personal");
+            showToast({ ...messageToast.activate, permanent: true });
+          }
+        }}
+        entityName="Personal"
+      />
     </>
   );
 };

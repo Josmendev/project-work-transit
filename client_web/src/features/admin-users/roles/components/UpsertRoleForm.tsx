@@ -12,7 +12,7 @@ import { handleApiError } from "../../../../shared/utils/handleApiError";
 import { showToast } from "../../../../shared/utils/toast";
 import { useRoles } from "../hooks/useRoles";
 import { getRoleSchema } from "../schemas/RoleSchema";
-import type { UpdateRoleSelected, UpsertRole } from "../types/Role";
+import type { CreateRole, UpdateRoleSelected } from "../types/Role";
 
 export const UpsertRoleForm = ({ onEditRole }: { onEditRole: UpdateRoleSelected }) => {
   const { selectedRole, clearSelectedRole } = onEditRole;
@@ -24,7 +24,7 @@ export const UpsertRoleForm = ({ onEditRole }: { onEditRole: UpdateRoleSelected 
     setFocus,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<UpsertRole>({
+  } = useForm<CreateRole>({
     resolver: zodResolver(getRoleSchema()),
     mode: "onChange", // Valido cuando el usuario escribe
   });
@@ -37,17 +37,21 @@ export const UpsertRoleForm = ({ onEditRole }: { onEditRole: UpdateRoleSelected 
 
   //Asigno el valor de descripcion al campo del register
   useEffect(() => {
-    if (selectedRole) setValue("description", selectedRole.description);
-    else reset();
-  }, [selectedRole, setValue, reset]);
+    if (selectedRole) {
+      setValue("description", selectedRole.description);
+      setFocus("description");
+    } else {
+      reset();
+    }
+  }, [selectedRole, setValue, setFocus, reset]);
 
-  const onSubmit: SubmitHandler<UpsertRole> = async (data) => {
+  const onSubmit: SubmitHandler<CreateRole> = async (data) => {
     try {
-      const roleDescriptionToCapitalize = transformToCapitalize(data?.description);
+      const roleToCapitalize = transformToCapitalize(data?.description);
       // Update
       if (selectedRole) {
         await handleUpdateRoleMutation.mutateAsync({
-          role: { description: roleDescriptionToCapitalize },
+          role: { description: roleToCapitalize },
           roleId: selectedRole.roleId,
         });
 
@@ -57,7 +61,7 @@ export const UpsertRoleForm = ({ onEditRole }: { onEditRole: UpdateRoleSelected 
         // Create
       } else {
         await handleCreateRoleMutation.mutateAsync({
-          role: { description: roleDescriptionToCapitalize },
+          role: { description: roleToCapitalize },
         });
 
         const messageToast = getMessageConfigResponse("Rol");

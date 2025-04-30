@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { usePagination } from "../../../../shared/hooks/usePagination";
 import { useValidationParamsInUpdate } from "../../../../shared/hooks/useValidationParamsInUpdate";
@@ -10,7 +10,7 @@ import {
 } from "../../../../shared/utils/constants";
 import { getMessageConfigResponse } from "../../../../shared/utils/getMessageConfig";
 import { showToast } from "../../../../shared/utils/toast";
-import type { User } from "../../../auth/types/User";
+import type { User, UserResponse } from "../../../auth/types/User";
 import { useUsers } from "./useUsers";
 
 export const useUserManagement = () => {
@@ -18,17 +18,16 @@ export const useUserManagement = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { currentPage: pageOfPagination, searchQuery } = usePagination();
-  const selectedUser = location.state?.user as User;
+  const selectedUser = location.state?.user as UserResponse;
   const currentPage = (location.state?.pageOfUsers as number) ?? pageOfPagination ?? 1;
   const MAIN_ROUTE = `/${BASE_ROUTES.PRIVATE.ADMIN}/${ADMIN_USERS_ROUTES.USERS}`;
-  const { handleUpdateUserMutation, handleResetPasswordUserMutation, handleDeleteUserMutation } =
-    useUsers({
-      currentPage,
-      searchQuery,
-    });
+  const { handleUpdateUserMutation } = useUsers({
+    currentPage,
+    searchQuery,
+  });
 
   // 📌 Estados
-  const [roles, setRoles] = useState<ROLES_KEYS[]>((selectedUser?.role as ROLES_KEYS[]) || []);
+  const [roles, setRoles] = useState<ROLES_KEYS[]>((selectedUser?.roles as ROLES_KEYS[]) || []);
 
   // 📌 Validaciones antes del renderizado (edit)
   const isUpdating = location.pathname.includes("/edit");
@@ -47,6 +46,9 @@ export const useUserManagement = () => {
     e.preventDefault();
     const rolesId = roles?.map((role) => ROLES_MAPPING[role]).filter(Number.isFinite);
 
+    console.log("ROLES => ", roles?.map((role) => ROLES_MAPPING[role]).filter(Number.isFinite));
+    console.log(selectedUser);
+
     if (rolesId.length === 0) {
       showToast({
         title: "No hay roles seleccionados",
@@ -56,32 +58,14 @@ export const useUserManagement = () => {
       return false;
     }
 
-    handleUpdateUserMutation.mutate({
+    handleUpdateUserMutation.mutateAsync({
       userId: selectedUser?.userId,
-      role: rolesId,
+      user: { rolesIds: rolesId },
     });
 
     const messageToast = getMessageConfigResponse("Usuario");
     showToast({ ...messageToast.update });
     return true;
-  };
-
-  const handleDeleteUserInRow = useCallback(
-    async (data: User) => {
-      if (!data?.userId) return;
-      await handleDeleteUserMutation.mutateAsync({ userId: data.userId });
-    },
-    [handleDeleteUserMutation]
-  );
-
-  // Confirmo la acción en el modal
-  const handleResetPasswordUser = () => {
-    handleResetPasswordUserMutation.mutate({
-      userId: selectedUser?.userId,
-    });
-
-    const messageToast = getMessageConfigResponse("Personal");
-    showToast({ ...messageToast.refreshPassword });
   };
 
   const handleChangeRole = (role: ROLES_KEYS) => {
@@ -99,9 +83,7 @@ export const useUserManagement = () => {
     roles,
     onEditRowSelected,
     handleUpdateUser,
-    handleDeleteUserInRow,
     handleChangeRole,
-    handleResetPasswordUser,
     shouldRedirect,
     MAIN_ROUTE,
   };

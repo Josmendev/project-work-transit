@@ -7,7 +7,7 @@ export const useBrandManagement = () => {
   const [onEditBrand, setOnEditBrand] = useState<UpdateBrandSelected>({
     selectedBrand: null,
     clearSelectedBrand: () => {
-      setOnEditBrand((prev) => ({ ...prev, selectedRole: null }));
+      setOnEditBrand((prev) => ({ ...prev, selectedBrand: null }));
     },
   });
 
@@ -19,7 +19,7 @@ export const useBrandManagement = () => {
 
   //Controlo estado del rol seleccionado en la lista
   const handleStateBrand = (data: Brand) => {
-    setOnEditBrand((prev) => ({ ...prev, selectedRole: data }));
+    setOnEditBrand((prev) => ({ ...prev, selectedBrand: data }));
   };
 
   // Eventos de seleccion de botones por fila

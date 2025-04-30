@@ -1,17 +1,27 @@
-import type { CertificateTypeResponse } from "../../../features/register-certificates/type-certificate/types/CertificateType";
 import { Icon } from "../Icon";
 
-interface Props {
+interface Props<T> {
   label: string;
-  options?: Array<CertificateTypeResponse>;
-  selectedOption?: CertificateTypeResponse;
-  onChange?: (option: CertificateTypeResponse) => void;
+  options?: T[];
+  selectedOption?: T;
+  onChange?: (option: T) => void;
+  getLabel: (option: T) => string;
+  getKey?: (option: T, index: number) => string | number;
 }
 
-const SelectGroup: React.FC<Props> = ({ label, options, selectedOption, onChange }) => {
+const SelectGroup = <T,>({
+  label,
+  options = [],
+  selectedOption,
+  onChange,
+  getLabel,
+  getKey,
+}: Props<T>) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedData = e.target.selectedOptions[0].dataset.option;
-    if (selectedData && onChange) onChange(JSON.parse(selectedData));
+    if (selectedData && onChange) {
+      onChange(JSON.parse(selectedData));
+    }
   };
 
   return (
@@ -20,25 +30,22 @@ const SelectGroup: React.FC<Props> = ({ label, options, selectedOption, onChange
 
       <div className="select-group-container">
         <select
-          value={selectedOption?.description ?? ""}
+          value={selectedOption ? getLabel(selectedOption) : ""}
           onChange={handleChange}
           className="select-group relative"
         >
           <option value="" disabled>
             Seleccione una opción
           </option>
-          {options?.map(
-            (option) =>
-              option.isActive && (
-                <option
-                  key={option.certificateTypeId}
-                  value={option.description}
-                  data-option={JSON.stringify(option)}
-                >
-                  {option.description}
-                </option>
-              )
-          )}
+          {options.map((option, idx) => (
+            <option
+              key={getKey ? getKey(option, idx) : idx}
+              value={getLabel(option)}
+              data-option={JSON.stringify(option)}
+            >
+              {getLabel(option)}
+            </option>
+          ))}
         </select>
 
         <span className="select-group-chevron">

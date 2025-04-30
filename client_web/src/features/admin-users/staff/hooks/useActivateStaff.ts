@@ -14,7 +14,7 @@ export const useActivateStaff = ({ queryKey, onSuccess }: ActivateStaffProps) =>
   return useMutation({
     mutationFn: activateStaff,
     onError: (error) => {
-      console.error("Error activando staff:", error);
+      console.error("Error activando al personal:", error);
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: queryKey.slice(0, 1), exact: false });

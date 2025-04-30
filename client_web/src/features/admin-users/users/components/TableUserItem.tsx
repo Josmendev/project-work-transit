@@ -1,19 +1,17 @@
 import { Button } from "../../../../shared/components/Button/Button";
 import { Icon } from "../../../../shared/components/Icon";
 import { LIMIT_PAGE } from "../../../../shared/utils/constants";
-import type { User } from "../../../auth/types/User";
+import type { UserResponse } from "../../../auth/types/User";
 
 export interface TableUserItemProps {
-  listOfUsers: Array<User>;
+  listOfUsers: Array<UserResponse>;
   currentPage: number;
-  editRow?: (data: User) => void;
-  deleteRow?: (data: User) => void;
+  editRow?: (data: UserResponse) => void;
 }
 
 export const TableUserItem: React.FC<TableUserItemProps> = ({
   listOfUsers,
   editRow,
-  deleteRow,
   currentPage,
 }) => {
   const stateDefault = "text-paragraph-medium inline-block w-12 py-1 rounded-lg";
@@ -39,11 +37,9 @@ export const TableUserItem: React.FC<TableUserItemProps> = ({
       {listOfUsers.map((row, rowIndex) => (
         <tr key={row?.userId} className="border-b border-neutral-100 text-center">
           <td className="p-2">{startIndex + rowIndex + 1}</td>
+          <td className="p-2">{row.staff}</td>
           <td className="p-2">{row.username}</td>
-          <td className="p-2">
-            {row.person.name} {row.person.paternalSurname} {row.person.maternalSurname}
-          </td>
-          <td className="p-2">{row.role.join(", ")}</td>
+          <td className="p-2">{row.roles.join(" | \n")}</td>
           <td className="p-2">{textIsConfirm(row.isConfirm)}</td>
           <td className="p-2">{textIsActive(row.isActive)}</td>
 
@@ -61,20 +57,6 @@ export const TableUserItem: React.FC<TableUserItemProps> = ({
                 }}
               >
                 <Icon.Edit className="w-6 h-6" strokeWidth={1.2} />
-              </Button>
-            )}
-
-            {deleteRow && (
-              <Button
-                title="Editar"
-                id={`btnDeleteRow-${row.userId}`}
-                aria-data={row}
-                classButton="transition-all duration-200 ease-in-out hover:text-danger-500"
-                onClick={() => {
-                  if (deleteRow) deleteRow(row);
-                }}
-              >
-                <Icon.Trash className="w-6 h-6" strokeWidth={1.2} />
               </Button>
             )}
           </td>

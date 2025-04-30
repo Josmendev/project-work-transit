@@ -4,14 +4,14 @@ import { ENDPOINT_ROLE } from "../utils/endpoints";
 // Creo la funcion ActivateRole que se conecta a la API del backend
 export const ActivateRoleService = async ({ roleId }: { roleId: number }): Promise<void> => {
   try {
-    const { token } = JSON.parse(sessionStorage.getItem("user") as string);
-    if (!token) throw new Error("Token inválido");
+    // const { token } = JSON.parse(sessionStorage.getItem("user") as string);
+    // if (!token) throw new Error("Token inválido");
 
-    const response = await fetch(`${ENDPOINT_ROLE}/${roleId}/activate`, {
+    const response = await fetch(`${ENDPOINT_ROLE}/${roleId}/active`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        // "Authorization": `Bearer ${token}`,
       },
     });
 

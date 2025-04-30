@@ -17,7 +17,7 @@ export const useStaffManagement = () => {
   } = usePagination();
   const currentPage = location.state?.pageOfStaff ?? pageOfPagination ?? 1;
 
-  const { handleDeleteStaffMutation, handleActivateStaffMutation, MAIN_ROUTE } = useStaff({
+  const { handleDeleteStaffMutation, MAIN_ROUTE } = useStaff({
     currentPage,
     searchQuery,
   });
@@ -45,14 +45,6 @@ export const useStaffManagement = () => {
     [handleDeleteStaffMutation]
   );
 
-  const handleActivateStaffInRow = useCallback(
-    async (data: StaffResponse) => {
-      if (!data?.staffId) return;
-      await handleActivateStaffMutation.mutateAsync({ staffId: data.staffId });
-    },
-    [handleActivateStaffMutation]
-  );
-
   const handleCreateStaff = useCallback(() => {
     navigate(`${MAIN_ROUTE}/add`, { state: { pageOfStaff: currentPage } });
   }, [navigate, MAIN_ROUTE, currentPage]);
@@ -66,7 +58,6 @@ export const useStaffManagement = () => {
     handleCreateStaff,
     handleUpdateStaffInRow,
     handleDeleteStaffInRow,
-    handleActivateStaffInRow,
     shouldRedirect,
   };
 };
