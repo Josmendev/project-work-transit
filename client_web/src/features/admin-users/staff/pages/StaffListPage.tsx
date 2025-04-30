@@ -22,7 +22,6 @@ export const StaffListPage = () => {
     handleSearch,
     handleDeleteStaffInRow,
     handleUpdateStaffInRow,
-    handleActivateStaffInRow,
     handleCreateStaff,
   } = useStaffManagement();
 
@@ -74,7 +73,6 @@ export const StaffListPage = () => {
               currentPage={currentPage}
               editRow={(data: StaffResponse) => handleUpdateStaffInRow(data)}
               deleteRow={(data: StaffResponse) => openModal("delete", data)}
-              activateRow={(data: StaffResponse) => openModal("activate", data)}
             />
           </Table>
         </Card>
@@ -85,7 +83,6 @@ export const StaffListPage = () => {
           onConfirm={() => {
             if (selectedItem) {
               if (modalType === "delete") handleDeleteStaffInRow(selectedItem);
-              if (modalType === "activate") handleActivateStaffInRow(selectedItem);
             }
           }}
           entityName="Personal"
