@@ -3,16 +3,16 @@ import {
   DNISchema,
   EmailSchema,
   FullNameSchema,
-  LastNameSchema,
   PhoneSchema,
+  StringToLabelSchema,
 } from "../../../../shared/schemas/commonSchemas";
 
 export const getStaffSchema = () =>
   z.object({
     identityDocumentNumber: DNISchema,
     name: FullNameSchema,
-    paternalSurname: LastNameSchema("apellido paterno"),
-    maternalSurname: LastNameSchema("apellido materno"),
-    phone: PhoneSchema,
+    paternalSurname: StringToLabelSchema("apellido paterno"),
+    maternalSurname: StringToLabelSchema("apellido materno"),
+    telephone: PhoneSchema,
     email: EmailSchema,
   });
