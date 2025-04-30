@@ -1,11 +1,11 @@
-import type { User } from "../../../auth/types/User";
+import type { UpdateUser, UserResponse } from "../../../auth/types/User";
+import { ActivateUserService } from "../services/ActivateUserService";
 import { DeleteUserService } from "../services/DeleteUserService";
 import { ListOfUsersService } from "../services/ListOfUsersService";
 import { SearchUsersService } from "../services/SearchUsersService";
 import { UpdateUserService } from "../services/UpdateUserService";
-import type { EditUser } from "../types/userTypes";
 
-// Funcion para obtener y buscar todos los users
+// Funcion para obtener y buscar
 export const getUsers = async ({
   limit,
   page,
@@ -18,13 +18,24 @@ export const getUsers = async ({
   return query ? SearchUsersService({ limit, page, query }) : ListOfUsersService({ limit, page });
 };
 
-// Funcion para editar un usuario
-export const updateUser = async (user: EditUser): Promise<User> => {
-  const updateUser = await UpdateUserService(user);
+// Funcion para editar
+export const updateUser = async ({
+  user,
+  userId,
+}: {
+  user: UpdateUser;
+  userId: number;
+}): Promise<UserResponse> => {
+  const updateUser = await UpdateUserService({ user, userId });
   return updateUser;
 };
 
-// Funcion para eliminar un usuario
+// Funcion para eliminar
 export const deleteUser = async ({ userId }: { userId: number }) => {
   await DeleteUserService({ userId });
+};
+
+// Funcion para activar
+export const activateUser = async ({ userId }: { userId: number }) => {
+  await ActivateUserService({ userId });
 };
