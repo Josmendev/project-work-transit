@@ -7,7 +7,6 @@ import {
 } from "../../../../shared/utils/constants";
 import { getStaffs } from "../repositories/staffRepository";
 import { useActivateStaff } from "./useActivateStaff";
-import { useAssignStaff } from "./useAssignStaff";
 import { useCreateStaff } from "./useCreateStaff";
 import { useDeleteStaff } from "./useDeleteStaff";
 import { useUpdateStaff } from "./useUpdateStaff";
@@ -38,15 +37,10 @@ export const useStaff = ({
 
   const handleCreateStaffMutation = useCreateStaff({
     queryKey: staffQueryKey,
-    onSuccess: (newPage) => {
-      navigate(`${MAIN_ROUTE}?page=${newPage}`);
-    },
-  });
-
-  const handleAssignStaffMutation = useAssignStaff({
-    queryKey: staffQueryKey,
-    onSuccess: (newPage) => {
-      navigate(`${MAIN_ROUTE}?page=${newPage}`);
+    onSuccess: (response, newPage) => {
+      if (response && !("DNI" in response)) {
+        navigate(`${MAIN_ROUTE}?page=${newPage}`);
+      }
     },
   });
 
@@ -83,6 +77,5 @@ export const useStaff = ({
     handleUpdateStaffMutation,
     handleDeleteStaffMutation,
     handleActivateStaffMutation,
-    handleAssignStaffMutation,
   };
 };
