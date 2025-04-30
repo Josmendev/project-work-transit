@@ -4,10 +4,8 @@ export function isErrorResponse(error: unknown): error is ErrorResponse {
   return (
     typeof error === "object" &&
     error !== null &&
-    "statusCode" in error &&
-    typeof error.statusCode === "number" &&
-    "error" in error &&
-    typeof error.error === "string" &&
+    "status" in error &&
+    typeof error.status === "number" &&
     "message" in error &&
     (typeof error.message === "string" || Array.isArray(error.message))
   );
