@@ -1,15 +1,24 @@
 import { ActivateStaffService } from "../services/ActivateStaffService";
-import { AssignStaffService } from "../services/AssignStaffService";
 import { CreateStaffService } from "../services/CreateStaffService";
 import { DeleteStaffService } from "../services/DeleteStaffService";
 import { ListStaffsService } from "../services/ListStaffsService";
 import { SearchStaffsService } from "../services/SearchStaffsService";
 import { UpdateStaffService } from "../services/UpdateStaffService";
-import type { Staff, StaffAssignRequest } from "../types/Staff";
+import type { CreateStaff, StaffResponseConditional, UpdateStaff } from "../types/Staff";
 
 //Funcion para agregar staff
-export const createStaff = async ({ staff }: { staff: Staff }) => {
+export const createStaff = async ({ staff }: { staff: CreateStaff }) => {
   const response = await CreateStaffService({ staff });
+
+  // Controlo a personal registrado, pero eliminado
+  if ("DNI" in response && response.message.endsWith("se encuentra inactivo")) {
+    return {
+      isStaffInactive: true,
+      DNI: response.DNI,
+      staffId: response.staffId,
+    } as StaffResponseConditional;
+  }
+
   return response;
 };
 
@@ -27,7 +36,7 @@ export const getStaffs = async ({
 };
 
 // Funcion para actualizar un staff
-export const updateStaff = async ({ staff, staffId }: { staff: Staff; staffId: number }) => {
+export const updateStaff = async ({ staff, staffId }: { staff: UpdateStaff; staffId: number }) => {
   const updatedStaff = await UpdateStaffService({ staff, staffId });
   return updatedStaff;
 };
@@ -40,9 +49,4 @@ export const deleteStaff = async ({ staffId }: { staffId: number }) => {
 // Funcion para activar un staff
 export const activateStaff = async ({ staffId }: { staffId: number }) => {
   await ActivateStaffService({ staffId });
-};
-
-// Funcion para asignar un staff
-export const assignStaff = async ({ staff }: { staff: StaffAssignRequest }) => {
-  await AssignStaffService({ staff });
 };
