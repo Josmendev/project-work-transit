@@ -13,3 +13,6 @@
 [submodule "server/auth-ms"]
 	path = server/auth-ms
 	url = https://github.com/Work-Transit-Backend-Microservices-Nest/auth-ms.git
+[submodule "server/emails-ms"]
+	path = server/emails-ms
+	url = https://github.com/Work-Transit-Backend-Microservices-Nest/emails-ms.git
