@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { SecurePasswordSchema } from "../../../shared/schemas/commonSchemas";
 
-export const ConfirmUserSchema = z
+export const NewPasswordUserSchema = z
   .object({
     newPassword: SecurePasswordSchema,
     repeatPassword: SecurePasswordSchema,

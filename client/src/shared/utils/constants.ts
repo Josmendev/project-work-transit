@@ -4,6 +4,9 @@ export const BASE_ROUTES = {
   PUBLIC: {
     LOGIN: "/login",
     CONFIRM_ACCOUNT: "confirm-account",
+    REQUEST_RESET_PASSWORD: "request-reset-password",
+    VALIDATION_PIN: "validation-pin",
+    CHANGE_PASSWORD: "change-password",
     HOME: "/",
   },
   PRIVATE: {

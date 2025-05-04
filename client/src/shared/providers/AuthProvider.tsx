@@ -4,10 +4,10 @@ import { LoginService } from "../../features/auth/services/LoginService";
 import { LogoutService } from "../../features/auth/services/LogoutService";
 import { ProfileUserService } from "../../features/auth/services/ProfileUserService";
 import type {
-  AuthUserConfirm,
   AuthUserLogin,
+  AuthUserNewPassword,
   AuthUserResponse,
-} from "../../features/auth/types/authTypes";
+} from "../../features/auth/types/Auth";
 import type { User } from "../../features/auth/types/User";
 import { AuthContext } from "../contexts/AuthContext";
 import useTokenExpiration from "../hooks/useTokenExpiration";
@@ -24,16 +24,18 @@ interface AuthProviderProps {
 
 const init = () => {
   const userFromSessionStorage = sessionStorage.getItem("user");
-  const parsedUser = userFromSessionStorage ? JSON.parse(userFromSessionStorage) : {};
-  if (parsedUser.token) {
+  const parsedUser = userFromSessionStorage && JSON.parse(userFromSessionStorage);
+
+  if (parsedUser && parsedUser.token) {
     parsedUser.isActive = true;
     parsedUser.isConfirm = true;
+    return {
+      ...initialStateAuthUser,
+      ...parsedUser,
+    };
   }
 
-  return {
-    ...initialStateAuthUser,
-    ...parsedUser,
-  };
+  return initialStateAuthUser;
 };
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -44,10 +46,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (credentials: AuthUserLogin): Promise<AuthUserResponse> => {
     try {
       setLoading(true);
-      const responseUser = await LoginService(credentials);
-      const { token } = responseUser;
+      const responseUser = await LoginService({ user: credentials });
 
-      dispatch({ type: AUTH_TYPES.login, payload: { ...responseUser, token } });
+      dispatch({ type: AUTH_TYPES.login, payload: { ...responseUser } });
       sessionStorage.setItem("user", JSON.stringify(responseUser));
       return responseUser;
     } finally {
@@ -55,12 +56,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const confirmUser = async (credentials: AuthUserConfirm): Promise<AuthUserResponse> => {
+  const confirmUser = async (credentials: AuthUserNewPassword): Promise<AuthUserResponse> => {
     try {
       setLoading(true);
+      if (!authStateUser?.userId) throw new Error("User ID is missing");
+
       const { userId } = authStateUser;
-      if (!userId) throw new Error("User ID is missing");
-      const responseUser = await ConfirmUserService(credentials, userId);
+      const responseUser = await ConfirmUserService({ user: credentials, userId });
 
       const { token } = responseUser;
       if (!token) throw new Error("No token received after confirmation");
@@ -83,7 +85,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setLoading(true);
 
-      const responseUser = await ProfileUserService(token);
+      const responseUser = await ProfileUserService({ token });
       const responsePrevUser = JSON.parse(sessionStorage.getItem("user") || "{}");
       const responseUserUpdated = { ...responsePrevUser, ...responseUser };
       sessionStorage.setItem("user", JSON.stringify(responseUserUpdated));
@@ -138,7 +140,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   //Verifico la expiración del token
-  useTokenExpiration(authStateUser?.token, async () => {
+  useTokenExpiration(authStateUser?.token ?? null, async () => {
     if (!authStateUser?.token) return;
     await logout();
 
@@ -153,7 +155,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        user: authStateUser,
+        user: authStateUser ?? initialStateAuthUser,
         loading,
         login,
         logout,

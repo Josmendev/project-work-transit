@@ -1,12 +1,15 @@
 import { ENDPOINTS_AUTH } from "../../../shared/utils/endpoints";
 import { handleApiError } from "../../../shared/utils/handleApiError";
-import { type AuthUserConfirm, type AuthUserResponse } from "../types/authTypes";
+import { type AuthTokenResponse, type AuthUserNewPassword } from "../types/Auth";
 
 // Creo la funcion confirmUser que se conecta a la API del backend
-export const ConfirmUserService = async (
-  user: AuthUserConfirm,
-  userId: number
-): Promise<AuthUserResponse> => {
+export const ConfirmUserService = async ({
+  user,
+  userId,
+}: {
+  user: AuthUserNewPassword;
+  userId: number;
+}): Promise<AuthTokenResponse> => {
   try {
     const response = await fetch(`${ENDPOINTS_AUTH.CONFIRM_ACCOUNT}/${userId}`, {
       method: "POST",
@@ -16,14 +19,14 @@ export const ConfirmUserService = async (
       body: JSON.stringify(user),
     });
 
-    // Respuesta no exitosa, lanzo excepcion del backend
+    // Respuesta no exitosa
     if (!response.ok) throw await response.json();
 
-    // Respuesta exitosa, parseo el JSON y devuelvo el objeto AuthResponseUser
-    const data: AuthUserResponse = await response.json();
-    return data;
+    // Respuesta exitosa
+    const currentToken: AuthTokenResponse = await response.json();
+    return currentToken;
   } catch (error: unknown) {
     handleApiError(error);
-    return Promise.reject(error); // Similar al throw, pero enfocado a promesas
+    return Promise.reject(error);
   }
 };

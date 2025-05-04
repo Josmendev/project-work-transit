@@ -1,20 +1,20 @@
 import { ENDPOINTS_AUTH } from "../../../shared/utils/endpoints";
 import { handleApiError } from "../../../shared/utils/handleApiError";
-import { type AuthUserLogin, type AuthUserResponse } from "../types/Auth";
+import { type AuthUserNewPassword, type AuthUserResponse } from "../types/Auth";
 
 // Creo la funcion login que se conecta a la API del backend
-export const LoginService = async ({
-  user,
+export const ChangePasswordService = async ({
+  userWithNewPassword,
 }: {
-  user: AuthUserLogin;
+  userWithNewPassword: AuthUserNewPassword;
 }): Promise<AuthUserResponse> => {
   try {
-    const response = await fetch(`${ENDPOINTS_AUTH.LOGIN}`, {
+    const response = await fetch(`${ENDPOINTS_AUTH.CHANGE_PASSWORD}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ ...user }),
+      body: JSON.stringify({ ...userWithNewPassword }),
     });
 
     // Respuesta no exitosa

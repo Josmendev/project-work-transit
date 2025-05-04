@@ -4,10 +4,11 @@ export type EventType =
   | "create"
   | "update"
   | "assign"
-  | "refreshPassword"
+  | "changePassword"
   | "confirmAccount"
   | "userInSession"
   | "userLogout"
   | "tableData"
   | "reportCertificate"
+  | "requestResetPassword"
   | null;
