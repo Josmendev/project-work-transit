@@ -16,8 +16,8 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
             height="auto"
             className="mx-auto mb-2"
           />
-          <h1 className="text-primary-500 text-h4-semibold mb-1">{title}</h1>
-          <h2 className="text-shades-dark text-h6-semibold opacity-90 mb-11">{subtitle}</h2>
+          <h1 className="text-primary-500 text-h4-semibold mb-2.5">{title}</h1>
+          <h2 className="text-shades-dark text-paragraph-semibold opacity-85 mb-11">{subtitle}</h2>
         </header>
 
         <main>{children}</main>
