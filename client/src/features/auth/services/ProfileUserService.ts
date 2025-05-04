@@ -1,9 +1,13 @@
 import { ENDPOINTS_AUTH } from "../../../shared/utils/endpoints";
 import { handleApiError } from "../../../shared/utils/handleApiError";
-import type { AuthUserResponse } from "../types/authTypes";
+import type { AuthUserResponse } from "../types/Auth";
 
 // Creo la funcion profileUser que se conecta a la API del backend
-export const ProfileUserService = async (token: string): Promise<AuthUserResponse> => {
+export const ProfileUserService = async ({
+  token,
+}: {
+  token: string;
+}): Promise<AuthUserResponse> => {
   try {
     const response = await fetch(`${ENDPOINTS_AUTH.PROFILE}`, {
       method: "GET",
@@ -13,14 +17,14 @@ export const ProfileUserService = async (token: string): Promise<AuthUserRespons
       },
     });
 
-    // Respuesta no exitosa, lanzo excepcion del backend
+    // Respuesta no exitosa
     if (!response.ok) throw await response.json();
 
-    // Respuesta exitosa, parseo el JSON y devuelvo el objeto AuthResponseUser
+    // Respuesta exitosa
     const data: AuthUserResponse = await response.json();
     return data;
   } catch (error: unknown) {
     handleApiError(error);
-    return Promise.reject(error); // Similar al throw, pero enfocado a promesas
+    return Promise.reject(error);
   }
 };
