@@ -3,4 +3,5 @@ export const AUTH_TYPES = {
   confirmUser: "[Auth] Confirm User",
   profile: "[Auth] Profile",
   logout: "[Auth] Logout",
+  requestPasswordReset: "[Auth] Request Password Reset",
 } as const;

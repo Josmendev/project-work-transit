@@ -11,7 +11,7 @@ export const authReducer = (state = initialStateAuthUser, action: AuthAction) =>
       return {
         ...state,
         ...action.payload,
-        isActive: true,
+        isConfirm: true,
       };
 
     case AUTH_TYPES.profile:
@@ -23,6 +23,7 @@ export const authReducer = (state = initialStateAuthUser, action: AuthAction) =>
     case AUTH_TYPES.logout:
       return { ...initialStateAuthUser };
 
+    case AUTH_TYPES.requestPasswordReset:
     default:
       return state;
   }

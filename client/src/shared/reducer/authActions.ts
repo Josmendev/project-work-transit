@@ -1,4 +1,4 @@
-import type { AuthUserResponse } from "../../features/auth/types/authTypes";
+import type { AuthUserResponse } from "../../features/auth/types/Auth";
 import { AUTH_TYPES } from "./authTypes";
 
 // Defino el action con payload (only: type, payload)
@@ -17,4 +17,5 @@ export type AuthAction =
   | ActionWithPayload<typeof AUTH_TYPES.login, AuthUserResponse>
   | ActionWithPayload<typeof AUTH_TYPES.confirmUser, AuthUserResponse>
   | ActionWithPayload<typeof AUTH_TYPES.profile, AuthUserResponse>
-  | ActionWithoutPayload<typeof AUTH_TYPES.logout>;
+  | ActionWithoutPayload<typeof AUTH_TYPES.logout>
+  | ActionWithoutPayload<typeof AUTH_TYPES.requestPasswordReset>;

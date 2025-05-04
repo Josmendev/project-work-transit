@@ -1,4 +1,4 @@
-import type { AuthUserResponse } from "../../features/auth/types/authTypes";
+import type { AuthUserResponse } from "../../features/auth/types/Auth";
 
 // Creo el estado inicial del reducer
 export const initialStateAuthUser: AuthUserResponse = {
@@ -7,12 +7,9 @@ export const initialStateAuthUser: AuthUserResponse = {
   token: "",
   isConfirm: false,
   isActive: false,
-  person: {
-    personId: 0,
-    identityDocumentNumber: "",
-    name: "",
-    paternalSurname: "",
-    maternalSurname: "",
-  },
-  role: [],
+  identityDocumentNumber: "",
+  name: "",
+  maternalSurname: "",
+  paternalSurname: "",
+  roles: [],
 };
