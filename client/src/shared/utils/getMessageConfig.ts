@@ -23,10 +23,6 @@ export const getMessageConfigRequest = (
       title: `Activar ${entityName}`,
       subtitle: `¿Deseas activar el ${entityName.toLowerCase()} que actualmente se encuentra inhabilitado?`,
     },
-    refreshPassword: {
-      title: "Refrescar contraseña",
-      subtitle: "¿Desea restaurar la contraseña a su estado inicial?",
-    },
     assign: {
       title: `Asignar ${firstItem} como ${secondItem}`,
       subtitle: `¿La persona actualmente está registrada como ${firstItem}, deseas asignarla como ${secondItem}?`,
@@ -34,7 +30,10 @@ export const getMessageConfigRequest = (
   } as Record<Exclude<EventType, null>, { title: string; subtitle: string }>;
 };
 
-export const getMessageConfigResponse = (entityName: string, entitiesInMessage?: Array<string>) => {
+export const getMessageConfigResponse = (
+  entityName?: string,
+  entitiesInMessage?: Array<string>
+) => {
   const [firstItem = "Paciente", secondItem = "Personal"] = entitiesInMessage ?? [];
   return {
     create: {
@@ -77,10 +76,14 @@ export const getMessageConfigResponse = (entityName: string, entitiesInMessage?:
       description: "Se cerró la sesión de forma exitosa.",
       type: "success",
     },
-    refreshPassword: {
+    requestResetPassword: {
+      title: "Correo electrónico enviado",
+      description: "Se envió de manera satisfactoria el PIN de acceso a tu bandeja de entrada.",
+      type: "success",
+    },
+    changePassword: {
       title: "Contraseña restablecida",
-      description:
-        "Se restableció la contraseña de manera exitosa. Para iniciar sesión, el usuario debe confirmar sus credenciales.",
+      description: "Se restableció la contraseña de manera exitosa.",
       type: "success",
     },
     reportCertificate: {
