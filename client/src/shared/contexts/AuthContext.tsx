@@ -1,17 +1,19 @@
 import { createContext } from "react";
+
 import type {
-  AuthUserConfirm,
   AuthUserLogin,
+  AuthUserNewPassword,
   AuthUserResponse,
-} from "../../features/auth/types/authTypes";
+} from "../../features/auth/types/Auth";
 import type { User } from "../../features/auth/types/User";
+import { initialStateAuthUser } from "../reducer/authStates";
 
 // Creo el contexto para almacenar valores globales de autenticacion
 export interface AuthContextProps {
-  user: AuthUserResponse | null;
+  user: AuthUserResponse;
   loading: boolean;
   login: (credentials: AuthUserLogin) => Promise<AuthUserResponse>;
-  confirmUser: (credentials: AuthUserConfirm) => Promise<AuthUserResponse>;
+  confirmUser: (credentials: AuthUserNewPassword) => Promise<AuthUserResponse>;
   profileUser: (token: string) => Promise<AuthUserResponse>;
   logout: () => Promise<void>;
   updateUserInSession: (updatedUser: User) => void;
@@ -19,7 +21,7 @@ export interface AuthContextProps {
 
 // Creo el contexto con los valores por defecto
 export const AuthContext = createContext<AuthContextProps>({
-  user: null,
+  user: initialStateAuthUser,
   loading: false,
   login: async () => {
     throw new Error("EL LOGIN NO SE ENCUENTRA IMPLEMENTADO");
