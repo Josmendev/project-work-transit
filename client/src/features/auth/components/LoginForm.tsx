@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { Button } from "../../../shared/components/Button/Button";
 import { Icon } from "../../../shared/components/Icon";
 import Loader from "../../../shared/components/Loader";
@@ -11,13 +11,16 @@ import { BASE_ROUTES } from "../../../shared/utils/constants";
 import { getMessageConfigResponse } from "../../../shared/utils/getMessageConfig";
 import { showToast } from "../../../shared/utils/toast";
 import { getLoginSchema } from "../schemas/LoginSchema";
-import type { AuthUserLogin } from "../types/authTypes";
+import type { AuthUserLogin } from "../types/Auth";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
   const { loading, login, user } = useContext(AuthContext);
-  const { profileUser } = useContext(AuthContext);
+  // const { profileUser } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
+  const {
+    PUBLIC: { REQUEST_RESET_PASSWORD },
+  } = BASE_ROUTES;
 
   const {
     register,
@@ -43,11 +46,10 @@ export const LoginForm = () => {
     }
 
     if (token && token.length > 0 && isConfirm) {
+      //TODO: LUEGO ACTIVAR await profileUser(token);
       const messageToast = getMessageConfigResponse("Usuario");
       showToast({ ...messageToast.userInSession });
-
       navigate("/" + BASE_ROUTES.PRIVATE.DASHBOARD);
-      await profileUser(token);
     }
   };
 
@@ -69,6 +71,7 @@ export const LoginForm = () => {
           {...register("username")}
           error={errors.username?.message as string}
         />
+
         <TextInput
           label="Contraseña"
           type={showPassword ? "text" : "password"}
@@ -95,12 +98,21 @@ export const LoginForm = () => {
           error={errors.password?.message as string}
         />
 
+        <NavLink
+          to={"/" + REQUEST_RESET_PASSWORD}
+          preventScrollReset
+          viewTransition
+          className="custom-link -mt-3"
+        >
+          ¿Olvidaste tu contraseña?
+        </NavLink>
+
         <Button
           name="btnSignIn"
           title="Iniciar sesión"
           type="submit"
           tabIndex={3}
-          classButton="btn-primary mt-4"
+          classButton="btn-primary mt-2"
           iconRight={<Icon.ArrowRight size={28} />}
           onClick={handleSubmit(onSubmit)}
           disabled={loading}
