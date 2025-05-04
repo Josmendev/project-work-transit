@@ -8,12 +8,15 @@ import Loader from "../../../shared/components/Loader";
 import { TextInput } from "../../../shared/components/TextInput/TextInput";
 import { AuthContext } from "../../../shared/contexts/AuthContext";
 import { BASE_ROUTES } from "../../../shared/utils/constants";
-import { ConfirmUserSchema } from "../schemas/ConfirmUserSchema";
-import type { AuthUserConfirm } from "../types/authTypes";
+import { getMessageConfigResponse } from "../../../shared/utils/getMessageConfig";
+import { showToast } from "../../../shared/utils/toast";
+import { NewPasswordUserSchema } from "../schemas/NewPasswordUserSchema";
+import type { AuthUserNewPassword } from "../types/Auth";
 
 export const ConfirmUserForm = () => {
   const navigate = useNavigate();
-  const { loading, user, confirmUser, profileUser } = useContext(AuthContext);
+  const { loading, user, confirmUser } = useContext(AuthContext);
+  // const { profileUser } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -21,19 +24,21 @@ export const ConfirmUserForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AuthUserConfirm>({
-    resolver: zodResolver(ConfirmUserSchema),
+  } = useForm<AuthUserNewPassword>({
+    resolver: zodResolver(NewPasswordUserSchema),
     mode: "onChange", // Valido cuando el usuario escribe
   });
 
   const handleShowPassword = () => setShowPassword(!showPassword);
   const handleShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
 
-  const onSubmit: SubmitHandler<AuthUserConfirm> = async (data) => {
+  const onSubmit: SubmitHandler<AuthUserNewPassword> = async (data) => {
     const response = await confirmUser(data);
 
     if (response?.token) {
-      await profileUser(response?.token);
+      // TODO: LUEGO ACTIVAR await profileUser(response?.token);
+      const messageToast = getMessageConfigResponse("Usuario");
+      showToast({ ...messageToast.userInSession });
       navigate("/" + BASE_ROUTES.PRIVATE.DASHBOARD, { replace: true });
     }
   };
