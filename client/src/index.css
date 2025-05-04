@@ -9,6 +9,7 @@
 @import "./shared/components/Spinner/Spinner.module.css";
 @import "./shared/components/Table/Table.module.css";
 @import "./shared/components/TextInput/TextInput.module.css";
+@import "./shared/styles/CustomLink.module.css";
 
 @theme {
   /* Fonts */
