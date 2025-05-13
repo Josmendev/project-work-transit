@@ -1,54 +1,107 @@
-# React + TypeScript + Vite
+# Client - Work Transit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React Logo" width="200" height="200" />
+</p>
 
-Currently, two official plugins are available:
+Este es el cliente (frontend) del proyecto **Work Transit**. Está construido con **React** y utiliza **Vite** para un desarrollo más rápido y eficiente.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Arquitectura de Software – Frontend (SPA)
 
-## Expanding the ESLint configuration
+### 📌 Tecnologías Utilizadas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Lenguaje de Programación:** JavaScript / TypeScript
+- **Librería:** React ⚛️
+- **Gestor de Paquetes:** PNPM 📦
+- **Gestión de Rutas:** React Router 🚏
+- **Gestión de Formularios:** React Hook Form (con Zod para validaciones)
+- **Gestión de Estado Global:** Context API (usando el Provider Pattern)
+- **Manejo de Datos:** Fetch y React Query
+- **Estilos:** Tailwind CSS 🎨
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### 🧪 Testing
+
+- **Jest** (Pruebas Unitarias - PU)
+- **React Testing Library** (Pruebas de Componente - PC)
+
+### 📡 Comunicación
+
+- **SPA - RESTful**
+
+### 🏗️ Patrón y Estilo de Arquitectura
+
+- **Modular (Features)**
+- **Cliente / Servidor (Monolítica)**
+
+### 🔍 Consumo en Base a Documentación
+
+- **Postman / Insomnia**
+
+## 📦 Instalación y Ejecución
+
+1. Clonar el repositorio:
+
+   ```sh
+   git clone https://github.com/JosmenDev/project-certi-salud.git
+   cd project-certi-salud/client
+   ```
+
+2. Instalar las dependencias con PNPM:
+
+   ```sh
+   pnpm install
+   ```
+
+3. Iniciar el servidor de desarrollo:
+
+   ```sh
+   pnpm run dev
+   ```
+
+## 📁 Estructura del Proyecto
+
+```
+client/
+│-- src/
+│   ├── features/               # Funcionalidades principales
+│   │   ├── admin-routes/        # Módulo de administración de rutas de viaje
+│   │   ├── admin-users/         # Gestión de usuarios
+│   │   ├── auth/                # Autenticación
+│   │   ├── trips/               # Módulo de viajes
+│   │   ├── register-certificates/ # Módulo de administración de Vehículos
+│   ├── router/                  # Definición de rutas
+│   │   ├── AppRouter.tsx
+│   │   ├── protected
+│   │   │   ├── PrivateRoute.tsx
+│   │   │   ├── AdminRoute.tsx
+│   │   │   ├── VehicleRoute.tsx
+│   │   ├── PublicRoute.tsx
+│   ├── shared/                   # Elementos reutilizables
+│   │   ├── components/
+│   │   ├── contexts/
+│   │   ├── helpers/
+│   │   ├── hooks/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   ├── providers/
+│   │   ├── reducer/
+│   │   ├── schemas/
+│   │   ├── sections/
+│   │   ├── styles/
+│   │   ├── types/
+│   │   ├── utils/
+│   ├── main.tsx                 # Punto de entrada principal
+│-- public/
+│-- package.json
+│-- pnpm-lock.yaml
+│-- vite.config.js
+│-- postcss.config.js
+│-- eslint.config.js
+│-- .gitignore
+│-- README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📌 Notas Adicionales
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- Asegúrate de tener **Node.js** instalado en tu máquina.
+- ¡Adelante, pruebalo 😎😎😎!
